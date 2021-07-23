@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworks_vnet_infra_shared_caneast_001_name": {
+            "defaultValue": "vnet-infra-shared-caneast-001",
+            "type": "String"
+        },
+        "virtualNetworks_vnet_infra_dev_caneast_001_externalid": {
+            "defaultValue": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/virtualNetworks/vnet-infra-test-caneast-001",
+            "type": "String"
+        },
+		"virtualNetworks_vnet_infra_dev_caneast_001_iprange": {
+            "defaultValue": "10.9.0.0/16",
+            "type": "String"
+        },
+		"peer_vnet_shared_to_vnet_dev_001_name": {
+            "defaultValue": "peer_vnet_shared_to_vnet_test_001",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('virtualNetworks_vnet_infra_shared_caneast_001_name'), concat('/',parameters('peer_vnet_shared_to_vnet_dev_001_name')))]",
+            "properties": {
+                "peeringState": "Connected",
+                "remoteVirtualNetwork": {
+                    "id": "[parameters('virtualNetworks_vnet_infra_dev_caneast_001_externalid')]"
+                },
+                "allowVirtualNetworkAccess": true,
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": true,
+                "useRemoteGateways": false,
+                "remoteAddressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('virtualNetworks_vnet_infra_dev_caneast_001_iprange')]"
+                    ]
+                }
+            }
+        }
+    ]
+}

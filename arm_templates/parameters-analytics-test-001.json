@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccounts_dltlfdevcaneast001_name": {
+            "value": "dltlftestcaneast001"
+        },
+        "workspaces_synapse_tlf_dev_caneast_001_name": {
+            "value": "synapse-tlf-test-caneast-001"
+        },
+		"workspaces_connectivity_end_points_web": {
+            "value": "https://web.azuresynapse.net?workspace=%2fsubscriptions%2f0daece1b-dc6c-4e2e-9de3-df20f17acc90%2fresourceGroups%2frg-tlf-analytics-test-caneast-001%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fsynapse-tlf-test-caneast-001"
+        },
+		"workspaces_managed_resource_group_name": {
+            "value": "rg-tlf-synapse-internal-test-caneast-001"
+        },
+		"synapse_sql_administrator_login": {
+            "value": "synapseadminuser"
+        },
+		"synapse_sql_administrator_password": {
+            "value": "K8kSyi39zT8Mft7i"
+        },
+        "privateLinkHubs_synapseplhtlfdevcaneast001_name": {
+            "value": "synapseplhtlftestcaneast001"
+        },
+        "privateEndpoints_pep_datalake_tlf_dev_caneast_001_name": {
+            "value": "pep-datalake-tlf-test-caneast-001"
+        },
+        "privateEndpoints_pep_synapse_plh_tlf_dev_caneast_001_name": {
+            "value": "pep-synapse-plh-tlf-test-caneast-001"
+        },
+        "privateEndpoints_pep_synapse_sql_tlf_dev_caneast_001_name": {
+            "value": "pep-synapse-sql-tlf-test-caneast-001"
+        },
+        "privateEndpoints_pep_synapse_others_tlf_dev_caneast_001_name": {
+            "value": "pep-synapse-others-tlf-test-caneast-001"
+        },
+        "privateEndpoints_pep_synapse_sqlondemand_tlf_dev_caneast_001_name": {
+            "value": "pep-synapse-sqlondemand-tlf-test-caneast-001"
+        },
+        "virtualNetworks_vnet_infra_dev_caneast_001_externalid": {
+            "value": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/virtualNetworks/vnet-infra-test-caneast-001"
+        },
+		"snet_datalake_dev_caneast_001_name": {
+            "value": "snet-datalake-test-caneast-001"
+        },
+		"snet_synapse_dev_caneast_001_name": {
+            "value": "snet-synapse-test-caneast-001"
+        },
+        "privateDnsZones_privatelink_dfs_core_windows_net_externalid": {
+            "value": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/privateDnsZones/privatelink.dfs.core.windows.net"
+        },
+        "privateDnsZones_privatelink_dev_azuresynapse_net_externalid": {
+            "value": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/privateDnsZones/privatelink.dev.azuresynapse.net"
+        },
+        "privateDnsZones_privatelink_azuresynapse_net_externalid": {
+            "value": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/privateDnsZones/privatelink.azuresynapse.net"
+        },
+        "privateDnsZones_privatelink_sql_azuresynapse_net_externalid": {
+            "value": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/privateDnsZones/privatelink.sql.azuresynapse.net"
+        }
+    }
+}

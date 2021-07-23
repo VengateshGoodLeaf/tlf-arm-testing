@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vaults_akv_tlf_dev_caneast_001_name": {
+            "value": "akv-tlf-test-caneast-001"
+        },
+        "privateEndpoints_pep_akv_tlf_dev_caneast_001_name": {
+            "value": "pep-akv-tlf-test-caneast-001"
+        },
+        "privateDnsZones_privatelink_vaultcore_azure_net_name": {
+            "value": "privatelink.vaultcore.azure.net"
+        },
+		"privateDnsZones_privatelink_azuresynapse_net_name": {
+            "value": "privatelink.azuresynapse.net"
+        },
+		"privateDnsZones_privatelink_database_windows_net_name": {
+            "value": "privatelink.database.windows.net"
+        },
+        "privateDnsZones_privatelink_dev_azuresynapse_net_name": {
+            "value": "privatelink.dev.azuresynapse.net"
+        },
+        "privateDnsZones_privatelink_dfs_core_windows_net_name": {
+            "value": "privatelink.dfs.core.windows.net"
+        },
+        "privateDnsZones_privatelink_sql_azuresynapse_net_name": {
+            "value": "privatelink.sql.azuresynapse.net"
+        },
+		"peer_vnet_dev_to_vnet_shared_001_name": {
+            "value": "peer_vnet_test_to_vnet_shared_001"
+        },
+		"virtualNetworks_vnet_infra_shared_caneast_001_externalid": {
+            "value": "/subscriptions/ff4b3a60-46f3-4a56-b572-2cf79b77d467/resourceGroups/rg-infra-shared-001/providers/Microsoft.Network/virtualNetworks/vnet-infra-shared-caneast-001"
+        },
+		"virtualNetworks_vnet_infra_shared_caneast_001_iprange": {
+            "value": "10.4.0.0/16"
+        },
+		"virtualNetworks_vnet_infra_dev_caneast_001_name": {
+            "value": "vnet-infra-test-caneast-001"
+        },
+		"virtualNetworks_vnet_infra_dev_caneast_001_iprange": {
+            "value": "10.9.0.0/16"
+        },
+		"snet_default_dev_caneast_001_iprange": {
+            "value": "10.9.0.0/24"
+        },
+		"snet_datalake_dev_caneast_001_name": {
+            "value": "snet-datalake-test-caneast-001"
+        },
+		"snet_datalake_dev_caneast_001_iprange": {
+            "value": "10.9.1.0/24"
+        },
+		"snet_synapse_dev_caneast_001_name": {
+            "value": "snet-synapse-test-caneast-001"
+        },
+		"snet_synapse_dev_caneast_001_iprange": {
+            "value": "10.9.2.0/24"
+        },
+		"snet_sql_dev_caneast_001_name": {
+            "value": "snet-sql-test-caneast-001"
+        },
+		"snet_sql_dev_caneast_001_iprange": {
+            "value": "10.9.3.0/24"
+        },
+		"snet_vm_dev_caneast_001_name": {
+            "value": "snet-vm-test-caneast-001"
+        },
+		"snet_vm_dev_caneast_001_iprange": {
+            "value": "10.9.4.0/24"
+        },
+		"snet_akv_dev_caneast_001_name": {
+            "value": "snet-akv-test-caneast-001"
+        },
+		"snet_akv_dev_caneast_001_iprange": {
+            "value": "10.9.5.0/24"
+        },
+		"snet_sagex3_dev_caneast_001_name": {
+            "value": "snet-sagex3-test-caneast-001"
+        },
+		"snet_sagex3_dev_caneast_001_iprange": {
+            "value": "10.9.6.0/27"
+        }
+    }
+}

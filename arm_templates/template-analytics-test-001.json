@@ -1,0 +1,621 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+		"storageAccounts_dltlfdevcaneast001_name": {
+            "defaultValue": "dltlftestcaneast001",
+            "type": "String"
+        },
+        "workspaces_synapse_tlf_dev_caneast_001_name": {
+            "defaultValue": "synapse-tlf-test-caneast-001",
+            "type": "String"
+        },
+		"workspaces_connectivity_end_points_web": {
+            "defaultValue": "https://web.azuresynapse.net?workspace=%2fsubscriptions%2f0daece1b-dc6c-4e2e-9de3-df20f17acc90%2fresourceGroups%2frg-tlf-analytics-test-caneast-001%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fsynapse-tlf-test-caneast-001",
+            "type": "String"
+        },
+		"workspaces_managed_resource_group_name": {
+            "defaultValue": "rg-tlf-synapse-internal-test-caneast-001",
+            "type": "String"
+        },
+		"synapse_sql_administrator_login": {
+            "defaultValue": "synapseadminuser",
+            "type": "String"
+        },
+		"synapse_sql_administrator_password": {
+            "defaultValue": "",
+            "type": "SecureString"
+        },
+        "privateLinkHubs_synapseplhtlfdevcaneast001_name": {
+            "defaultValue": "synapseplhtlftestcaneast001",
+            "type": "String"
+        },
+        "privateEndpoints_pep_datalake_tlf_dev_caneast_001_name": {
+            "defaultValue": "pep-datalake-tlf-test-caneast-001",
+            "type": "String"
+        },
+        "privateEndpoints_pep_synapse_plh_tlf_dev_caneast_001_name": {
+            "defaultValue": "pep-synapse-plh-tlf-test-caneast-001",
+            "type": "String"
+        },
+        "privateEndpoints_pep_synapse_sql_tlf_dev_caneast_001_name": {
+            "defaultValue": "pep-synapse-sql-tlf-test-caneast-001",
+            "type": "String"
+        },
+        "privateEndpoints_pep_synapse_others_tlf_dev_caneast_001_name": {
+            "defaultValue": "pep-synapse-others-tlf-test-caneast-001",
+            "type": "String"
+        },
+        "privateEndpoints_pep_synapse_sqlondemand_tlf_dev_caneast_001_name": {
+            "defaultValue": "pep-synapse-sqlondemand-tlf-test-caneast-001",
+            "type": "String"
+        },
+        "virtualNetworks_vnet_infra_dev_caneast_001_externalid": {
+            "defaultValue": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/virtualNetworks/vnet-infra-test-caneast-001",
+            "type": "String"
+        },
+		"snet_datalake_dev_caneast_001_name": {
+            "defaultValue": "snet-datalake-test-caneast-001",
+            "type": "String"
+        },
+		"snet_synapse_dev_caneast_001_name": {
+            "defaultValue": "snet-synapse-test-caneast-001",
+            "type": "String"
+        },
+        "privateDnsZones_privatelink_dfs_core_windows_net_externalid": {
+            "defaultValue": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/privateDnsZones/privatelink.dfs.core.windows.net",
+            "type": "String"
+        },
+        "privateDnsZones_privatelink_dev_azuresynapse_net_externalid": {
+            "defaultValue": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/privateDnsZones/privatelink.dev.azuresynapse.net",
+            "type": "String"
+        },
+        "privateDnsZones_privatelink_azuresynapse_net_externalid": {
+            "defaultValue": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/privateDnsZones/privatelink.azuresynapse.net",
+            "type": "String"
+        },
+        "privateDnsZones_privatelink_sql_azuresynapse_net_externalid": {
+            "defaultValue": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/privateDnsZones/privatelink.sql.azuresynapse.net",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Synapse/privateLinkHubs",
+            "apiVersion": "2021-04-01-preview",
+            "name": "[parameters('privateLinkHubs_synapseplhtlfdevcaneast001_name')]",
+            "location": "canadaeast",
+            "properties": {
+                "provisioningState": "Succeeded"
+            }
+        },
+        {
+            "type": "Microsoft.Synapse/workspaces",
+            "apiVersion": "2021-04-01-preview",
+            "name": "[parameters('workspaces_synapse_tlf_dev_caneast_001_name')]",
+            "location": "canadaeast",
+            "identity": {
+                "principalId": null,
+                "tenantId": null,
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "encryption": {},
+                "managedVirtualNetwork": "default",
+                "connectivityEndpoints": {
+                    "web": "[parameters('workspaces_connectivity_end_points_web')]",
+                    "dev": "[concat('https://', parameters('workspaces_synapse_tlf_dev_caneast_001_name'), '.dev.azuresynapse.net')]",
+                    "sqlOnDemand": "[concat(parameters('workspaces_synapse_tlf_dev_caneast_001_name'), '-ondemand.sql.azuresynapse.net')]",
+                    "sql": "[concat(parameters('workspaces_synapse_tlf_dev_caneast_001_name'), '.sql.azuresynapse.net')]"
+                },
+                "managedResourceGroupName": "[parameters('workspaces_managed_resource_group_name')]",
+                "defaultDataLakeStorage": {
+                    "accountUrl": "[concat('https://', parameters('storageAccounts_dltlfdevcaneast001_name'), '.dfs.core.windows.net')]",
+                    "filesystem": "default"
+                },
+                "sqlAdministratorLogin": "[parameters('synapse_sql_administrator_login')]",
+				"sqlAdministratorPassword": "[parameters('synapse_sql_administrator_password')]",
+                "privateEndpointConnections": [
+                    {
+                        "properties": {
+                            "privateEndpoint": {},
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved"
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "privateEndpoint": {},
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved"
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "privateEndpoint": {},
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved"
+                            }
+                        }
+                    }
+                ],
+                "managedVirtualNetworkSettings": {
+                    "preventDataExfiltration": false,
+                    "allowedAadTenantIdsForLinking": []
+                },
+                "publicNetworkAccess": "Disabled"
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('privateEndpoints_pep_datalake_tlf_dev_caneast_001_name')]",
+            "location": "canadaeast",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_dltlfdevcaneast001_name'))]"
+            ],
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[parameters('privateEndpoints_pep_datalake_tlf_dev_caneast_001_name')]",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_dltlfdevcaneast001_name'))]",
+                            "groupIds": [
+                                "dfs"
+                            ],
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved",
+                                "description": "Auto-Approved",
+                                "actionsRequired": "None"
+                            }
+                        }
+                    }
+                ],
+                "manualPrivateLinkServiceConnections": [],
+                "subnet": {
+                    "id": "[concat(parameters('virtualNetworks_vnet_infra_dev_caneast_001_externalid'), concat('/subnets/',parameters('snet_datalake_dev_caneast_001_name')))]"
+                },
+                "customDnsConfigs": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('privateEndpoints_pep_synapse_others_tlf_dev_caneast_001_name')]",
+            "location": "canadaeast",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[parameters('privateEndpoints_pep_synapse_others_tlf_dev_caneast_001_name')]",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]",
+                            "groupIds": [
+                                "Dev"
+                            ],
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved"
+                            }
+                        }
+                    }
+                ],
+                "manualPrivateLinkServiceConnections": [],
+                "subnet": {
+                    "id": "[concat(parameters('virtualNetworks_vnet_infra_dev_caneast_001_externalid'), concat('/subnets/',parameters('snet_synapse_dev_caneast_001_name')))]"
+                },
+                "customDnsConfigs": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('privateEndpoints_pep_synapse_plh_tlf_dev_caneast_001_name')]",
+            "location": "canadaeast",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/privateLinkHubs', parameters('privateLinkHubs_synapseplhtlfdevcaneast001_name'))]"
+            ],
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[parameters('privateEndpoints_pep_synapse_plh_tlf_dev_caneast_001_name')]",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId('Microsoft.Synapse/privateLinkHubs', parameters('privateLinkHubs_synapseplhtlfdevcaneast001_name'))]",
+                            "groupIds": [
+                                "Web"
+                            ],
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved"
+                            }
+                        }
+                    }
+                ],
+                "manualPrivateLinkServiceConnections": [],
+                "subnet": {
+                    "id": "[concat(parameters('virtualNetworks_vnet_infra_dev_caneast_001_externalid'), concat('/subnets/',parameters('snet_synapse_dev_caneast_001_name')))]"
+                },
+                "customDnsConfigs": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('privateEndpoints_pep_synapse_sqlondemand_tlf_dev_caneast_001_name')]",
+            "location": "canadaeast",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[parameters('privateEndpoints_pep_synapse_sqlondemand_tlf_dev_caneast_001_name')]",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]",
+                            "groupIds": [
+                                "SqlOnDemand"
+                            ],
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved"
+                            }
+                        }
+                    }
+                ],
+                "manualPrivateLinkServiceConnections": [],
+                "subnet": {
+                    "id": "[concat(parameters('virtualNetworks_vnet_infra_dev_caneast_001_externalid'), concat('/subnets/',parameters('snet_synapse_dev_caneast_001_name')))]"
+                },
+                "customDnsConfigs": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('privateEndpoints_pep_synapse_sql_tlf_dev_caneast_001_name')]",
+            "location": "canadaeast",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[parameters('privateEndpoints_pep_synapse_sql_tlf_dev_caneast_001_name')]",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]",
+                            "groupIds": [
+                                "Sql"
+                            ],
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved"
+                            }
+                        }
+                    }
+                ],
+                "manualPrivateLinkServiceConnections": [],
+                "subnet": {
+                    "id": "[concat(parameters('virtualNetworks_vnet_infra_dev_caneast_001_externalid'), concat('/subnets/',parameters('snet_synapse_dev_caneast_001_name')))]"
+                },
+                "customDnsConfigs": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('privateEndpoints_pep_datalake_tlf_dev_caneast_001_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_pep_datalake_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "privateDnsZoneConfigs": [
+                    {
+                        "name": "privatelink-dfs-core-windows-net",
+                        "properties": {
+                            "privateDnsZoneId": "[parameters('privateDnsZones_privatelink_dfs_core_windows_net_externalid')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('privateEndpoints_pep_synapse_others_tlf_dev_caneast_001_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_pep_synapse_others_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "privateDnsZoneConfigs": [
+                    {
+                        "name": "privatelink-dev-azuresynapse-net",
+                        "properties": {
+                            "privateDnsZoneId": "[parameters('privateDnsZones_privatelink_dev_azuresynapse_net_externalid')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('privateEndpoints_pep_synapse_plh_tlf_dev_caneast_001_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_pep_synapse_plh_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "privateDnsZoneConfigs": [
+                    {
+                        "name": "privatelink-azuresynapse-net",
+                        "properties": {
+                            "privateDnsZoneId": "[parameters('privateDnsZones_privatelink_azuresynapse_net_externalid')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('privateEndpoints_pep_synapse_sqlondemand_tlf_dev_caneast_001_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_pep_synapse_sqlondemand_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "privateDnsZoneConfigs": [
+                    {
+                        "name": "privatelink-sql-azuresynapse-net",
+                        "properties": {
+                            "privateDnsZoneId": "[parameters('privateDnsZones_privatelink_sql_azuresynapse_net_externalid')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('privateEndpoints_pep_synapse_sql_tlf_dev_caneast_001_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_pep_synapse_sql_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "privateDnsZoneConfigs": [
+                    {
+                        "name": "privatelink-sql-azuresynapse-net",
+                        "properties": {
+                            "privateDnsZoneId": "[parameters('privateDnsZones_privatelink_sql_azuresynapse_net_externalid')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2021-04-01",
+            "name": "[parameters('storageAccounts_dltlfdevcaneast001_name')]",
+            "location": "canadaeast",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "StorageV2",
+            "properties": {
+                "isHnsEnabled": true,
+                "networkAcls": {
+                    "resourceAccessRules": [
+                        {
+                            "tenantId": "fdb52caa-e7b8-4394-b3bd-527a40a36dfc",
+                            "resourceId": "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+                        }
+                    ],
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Deny"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "keyType": "Account",
+                            "enabled": true
+                        },
+                        "blob": {
+                            "keyType": "Account",
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2021-04-01",
+            "name": "[concat(parameters('storageAccounts_dltlfdevcaneast001_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_dltlfdevcaneast001_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/fileServices",
+            "apiVersion": "2021-04-01",
+            "name": "[concat(parameters('storageAccounts_dltlfdevcaneast001_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_dltlfdevcaneast001_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "protocolSettings": {
+                    "smb": {}
+                },
+                "cors": {
+                    "corsRules": []
+                },
+                "shareDeleteRetentionPolicy": {
+                    "enabled": true,
+                    "days": 7
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/queueServices",
+            "apiVersion": "2021-04-01",
+            "name": "[concat(parameters('storageAccounts_dltlfdevcaneast001_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_dltlfdevcaneast001_name'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/tableServices",
+            "apiVersion": "2021-04-01",
+            "name": "[concat(parameters('storageAccounts_dltlfdevcaneast001_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_dltlfdevcaneast001_name'))]"
+            ],
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Synapse/workspaces/auditingSettings",
+            "apiVersion": "2021-04-01-preview",
+            "name": "[concat(parameters('workspaces_synapse_tlf_dev_caneast_001_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "auditActionsAndGroups": [],
+                "isStorageSecondaryKeyInUse": false,
+                "isAzureMonitorTargetEnabled": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Synapse/workspaces/bigDataPools",
+            "apiVersion": "2021-04-01-preview",
+            "name": "[concat(parameters('workspaces_synapse_tlf_dev_caneast_001_name'), '/SparkPool001')]",
+            "location": "canadaeast",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "creationDate": "2021-06-15T18:03:09.76Z",
+                "sparkVersion": "3.0",
+                "nodeCount": 3,
+                "nodeSize": "Small",
+                "nodeSizeFamily": "MemoryOptimized",
+                "autoScale": {
+                    "enabled": true,
+                    "minNodeCount": 3,
+                    "maxNodeCount": 10
+                },
+                "autoPause": {
+                    "enabled": true,
+                    "delayInMinutes": 15
+                },
+                "isComputeIsolationEnabled": false,
+                "customLibraries": [],
+                "sessionLevelPackagesEnabled": false,
+                "cacheSize": 0,
+                "dynamicExecutorAllocation": {
+                    "enabled": false
+                },
+                "provisioningState": "Succeeded"
+            }
+        },
+        {
+            "type": "Microsoft.Synapse/workspaces/extendedAuditingSettings",
+            "apiVersion": "2021-04-01-preview",
+            "name": "[concat(parameters('workspaces_synapse_tlf_dev_caneast_001_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "retentionDays": 0,
+                "auditActionsAndGroups": [],
+                "isStorageSecondaryKeyInUse": false,
+                "isAzureMonitorTargetEnabled": false,
+                "state": "Disabled",
+                "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+            }
+        },
+        {
+            "type": "Microsoft.Synapse/workspaces/integrationruntimes",
+            "apiVersion": "2021-04-01-preview",
+            "name": "[concat(parameters('workspaces_synapse_tlf_dev_caneast_001_name'), '/AutoResolveIntegrationRuntime')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "type": "Managed",
+                "typeProperties": {
+                    "computeProperties": {
+                        "location": "AutoResolve"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Synapse/workspaces/integrationruntimes",
+            "apiVersion": "2021-04-01-preview",
+            "name": "[concat(parameters('workspaces_synapse_tlf_dev_caneast_001_name'), '/SelfHostedIntegrationRuntime001')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "type": "SelfHosted",
+                "typeProperties": {}
+            }
+        },
+        {
+            "type": "Microsoft.Synapse/workspaces/securityAlertPolicies",
+            "apiVersion": "2021-04-01-preview",
+            "name": "[concat(parameters('workspaces_synapse_tlf_dev_caneast_001_name'), '/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', parameters('workspaces_synapse_tlf_dev_caneast_001_name'))]"
+            ],
+            "properties": {
+                "state": "Disabled",
+                "disabledAlerts": [
+                    ""
+                ],
+                "emailAddresses": [
+                    ""
+                ],
+                "emailAccountAdmins": false,
+                "retentionDays": 0
+            }
+        }
+    ]
+}

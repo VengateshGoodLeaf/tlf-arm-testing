@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworks_vnet_infra_shared_caneast_001_name": {
+            "value": "vnet-infra-shared-caneast-001"
+        },
+        "virtualNetworks_vnet_infra_dev_caneast_001_externalid": {
+            "value": "/subscriptions/0daece1b-dc6c-4e2e-9de3-df20f17acc90/resourceGroups/rg-infra-test-001/providers/Microsoft.Network/virtualNetworks/vnet-infra-test-caneast-001"
+        },
+        "virtualNetworks_vnet_infra_dev_caneast_001_iprange": {
+            "value": "10.9.0.0/16"
+        },
+		"peer_vnet_shared_to_vnet_dev_001_name": {
+            "value": "peer_vnet_shared_to_vnet_test_001"
+        }
+    }
+}
